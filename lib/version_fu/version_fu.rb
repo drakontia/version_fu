@@ -23,12 +23,12 @@ module VersionFu
                             :dependent   => :destroy do
           def latest
             find :first, :order=>'version desc'
-          end                    
+          end
         end
 
         before_save :check_for_new_version
       end
-      
+
       # Versioned Model
       const_set(versioned_class_name, Class.new(ActiveRecord::Base)).class_eval do
         # find first version before the given version
@@ -56,15 +56,15 @@ module VersionFu
       versioned_class.cattr_accessor :original_class
       versioned_class.original_class = self
       versioned_class.table_name = versioned_table_name
-      
+
       # Version parent association
       versioned_class.belongs_to self.to_s.demodulize.underscore.to_sym, 
         :class_name  => "::#{self.to_s}", 
         :foreign_key => versioned_foreign_key
-      
+
       # Block extension
       versioned_class.class_eval &block if block_given?
-      
+
       if self.versioned_class.table_exists?
         # Finally setup which columns to version
         self.versioned_columns =  versioned_class.new.attributes.keys - 
@@ -73,7 +73,7 @@ module VersionFu
         ActiveRecord::Base.logger.warn "Version Table not found"
       end
     end
-    
+
     def versioned_class
       const_get versioned_class_name
     end
@@ -84,18 +84,18 @@ module VersionFu
     def find_version(number)
       versions.find :first, :conditions=>{:version=>number}
     end
-    
+
     def check_for_new_version
       instantiate_revision if create_new_version?
       true # Never halt save
     end
-    
+
     # This the method to override if you want to have more control over when to version
     def create_new_version?
       # Any versioned column changed?
       self.class.versioned_columns.detect {|a| __send__ "#{a}_changed?"}
     end
-    
+
     def instantiate_revision
       new_version = versions.build
       versioned_columns.each do |attribute|
