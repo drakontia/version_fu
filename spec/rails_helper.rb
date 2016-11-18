@@ -5,7 +5,6 @@ require File.expand_path("../config/environment", __FILE__)
 require 'rspec/rails'
 
 require 'active_record'
-require 'open-uri'
 
 env = YAML::load_file(File.join(File.dirname(__FILE__), '/db/database.yml'))
 ActiveRecord::Base.logger = Logger.new(File.dirname(__FILE__) + "/debug.log")
