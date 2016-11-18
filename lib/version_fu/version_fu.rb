@@ -8,7 +8,7 @@ module VersionFu
       return if self.included_modules.include? VersionFu::InstanceMethods
       __send__ :include, VersionFu::InstanceMethods
 
-      cattr_accessor :versioned_class_name, :versioned_foreign_key, :versioned_table_name, 
+      cattr_accessor :versioned_class_name, :versioned_foreign_key, :versioned_table_name,
                      :version_column, :versioned_columns
 
       self.versioned_class_name         = options[:class_name]  || 'Version'
@@ -22,7 +22,7 @@ module VersionFu
                             :foreign_key => versioned_foreign_key,
                             :dependent   => :destroy do
           def latest
-            find :first, :order=>'version desc'
+            order(version: :desc).first
           end
         end
 
@@ -33,14 +33,14 @@ module VersionFu
       const_set(versioned_class_name, Class.new(ActiveRecord::Base)).class_eval do
         # find first version before the given version
         def self.before(version)
-          find :first, :order => 'version desc',
-            :conditions => ["#{original_class.versioned_foreign_key} = ? and version < ?", version.send(original_class.versioned_foreign_key), version.version]
+          where("#{original_class.versioned_foreign_key} = ? and version < ?", version.send(original_class.versioned_foreign_key), version.version).
+            order(version: :desc).first
         end
 
         # find first version after the given version.
         def self.after(version)
-          find :first, :order => 'version',
-            :conditions => ["#{original_class.versioned_foreign_key} = ? and version > ?", version.send(original_class.versioned_foreign_key), version.version]
+          where("#{original_class.versioned_foreign_key} = ? and version > ?", version.send(original_class.versioned_foreign_key), version.version).
+            order(version: :asc).first
         end
 
         def previous
@@ -58,16 +58,16 @@ module VersionFu
       versioned_class.table_name = versioned_table_name
 
       # Version parent association
-      versioned_class.belongs_to self.to_s.demodulize.underscore.to_sym, 
-        :class_name  => "::#{self.to_s}", 
+      versioned_class.belongs_to self.to_s.demodulize.underscore.to_sym,
+        :class_name  => "::#{self.to_s}",
         :foreign_key => versioned_foreign_key
 
       # Block extension
-      versioned_class.class_eval &block if block_given?
+      versioned_class.class_eval(&block) if block_given?
 
       if self.versioned_class.table_exists?
         # Finally setup which columns to version
-        self.versioned_columns =  versioned_class.new.attributes.keys - 
+        self.versioned_columns =  versioned_class.new.attributes.keys -
           [versioned_class.primary_key, versioned_foreign_key, version_column, 'created_at', 'updated_at']
       else
         ActiveRecord::Base.logger.warn "Version Table not found"
@@ -82,7 +82,7 @@ module VersionFu
 
   module InstanceMethods
     def find_version(number)
-      versions.find :first, :conditions=>{:version=>number}
+      versions.find_by_version(number)
     end
 
     def check_for_new_version
