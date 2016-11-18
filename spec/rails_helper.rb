@@ -12,6 +12,8 @@ ActiveRecord::Base.configurations = {'test' => env[ENV['DB'] || 'sqlite3']}
 ActiveRecord::Base.establish_connection(ActiveRecord::Base.configurations['test'])
 Dir[File.join(File.dirname(__FILE__), "models/*.rb")].each { |f| require f }
 
+load(File.dirname(__FILE__) + '/config/schema.rb')
+
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
