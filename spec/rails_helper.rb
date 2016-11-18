@@ -6,7 +6,7 @@ require 'rspec/rails'
 
 require 'active_record'
 
-env = YAML::load_file(File.join(File.dirname(__FILE__), '/db/database.yml'))
+env = YAML::load(IO.read(File.dirname(__FILE__) + '/db/database.yml'))
 ActiveRecord::Base.logger = Logger.new(File.dirname(__FILE__) + "/debug.log")
 ActiveRecord::Base.configurations = {'test' => env[ENV['DB'] || 'sqlite3']}
 ActiveRecord::Base.establish_connection(ActiveRecord::Base.configurations['test'])
