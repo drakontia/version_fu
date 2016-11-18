@@ -1,0 +1,15 @@
+sqlite3:
+  :adapter: sqlite3
+  :database: db/version_fu_test.sqlite3
+postgresql:
+  :adapter: postgresql
+  :username: postgres
+  :password: postgres
+  :database: version_fu_test
+  :min_messages: ERROR
+mysql:
+  :adapter: mysql
+  :host: localhost
+  :username: root
+  :password:
+  :database: version_fu_test
