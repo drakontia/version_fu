@@ -4,7 +4,8 @@ rvm:
   - 2.2
   - 2.1
   - 2.0
-script: bundle exec rake spec rubocop
-install: bundle install --jobs=1
-cache: bundler
 sudo: false
+cache: bundler
+install: bundle install --jobs=1
+before_script: cp ./spec/config/database.yml.travis ./spec/config/database.yml
+script: bundle exec rake spec rubocop
