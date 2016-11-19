@@ -1,6 +1,6 @@
 class Author < ActiveRecord::Base
 
-  version_fu
+  include VersionFu
 
   def create_new_version?
     first_name_change && last_name_changed?

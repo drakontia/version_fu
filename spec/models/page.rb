@@ -1,5 +1,5 @@
 class Page < ActiveRecord::Base
-  version_fu do
+  include VersionFu do
     belongs_to :author, :class_name=>'::Author'
   end
 
