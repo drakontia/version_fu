@@ -1,8 +1,15 @@
 require 'rails_helper'
 
 describe Version_fu, :type => :model do
-  Page.version_fu
-  Author.version_fu
+  before :all do
+    VersionFuTables.up
+    Page.new
+    Author.new
+  end
+
+  after :all do
+    VersionFuTables.down
+  end
 
   describe "associations" do
     subject(:welcome) { create(:page) }

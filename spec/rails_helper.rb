@@ -6,13 +6,9 @@ require 'rspec/rails'
 
 require 'active_record'
 
-env = YAML::load(IO.read(File.dirname(__FILE__) + '/config/database.yml'))
+Dir[File.join(File.dirname(__FILE__), "support/*.rb")].each { |f| require f }
 ActiveRecord::Base.logger = Logger.new(File.dirname(__FILE__) + "/debug.log")
-ActiveRecord::Base.configurations = {'test' => env[ENV['DB'] || 'sqlite3']}
-ActiveRecord::Base.establish_connection(ActiveRecord::Base.configurations['test'])
 Dir[File.join(File.dirname(__FILE__), "models/*.rb")].each { |f| require f }
-
-load(File.dirname(__FILE__) + '/config/schema.rb')
 
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
