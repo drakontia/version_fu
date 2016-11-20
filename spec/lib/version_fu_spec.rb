@@ -3,8 +3,10 @@ require 'rails_helper'
 describe Version_fu, :type => :model do
   before :all do
     VersionFuTables.up
-    Page.new
-    Author.new
+    @page = Page.new
+    @author = Author.new
+    Page.version_fu
+    Author.version_fu
   end
 
   after :all do

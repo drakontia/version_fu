@@ -8,3 +8,4 @@ sudo: false
 cache: bundler
 install: bundle install --jobs=1
 script: bundle exec rake spec rubocop
+after_script: cat ./spec/debug.log
