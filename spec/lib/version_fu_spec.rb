@@ -3,6 +3,7 @@ require 'rails_helper'
 describe Version_fu, :type => :model do
   before :all do
     VersionFuTables.up
+    Dir[File.join(File.dirname(__FILE__), "models/*.rb")].each { |f| require f }
     @page = Page.new
     @author = Author.new
     Page.version_fu
