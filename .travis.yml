@@ -7,5 +7,5 @@ rvm:
 sudo: false
 cache: bundler
 install: bundle install --jobs=1
-script: bundle exec rake spec rubocop
+script: bundle exec rake spec
 after_script: cat ./spec/debug.log
