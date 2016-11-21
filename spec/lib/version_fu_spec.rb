@@ -1,15 +1,14 @@
 require 'rails_helper'
 
-describe Version_fu, :type => :model do
-
+describe Version_fu, type: :model do
   after :all do
     VersionFuTables.down
   end
 
-  describe "associations" do
+  describe 'associations' do
     subject(:welcome) { create(:page) }
     before do
-      welcome.update(title: "Version 2", body: "New Version")
+      welcome.update(title: 'Version 2', body: 'New Version')
       welcome.save
     end
 
@@ -22,11 +21,11 @@ describe Version_fu, :type => :model do
     end
   end
 
-  describe "attributes" do
+  describe 'attributes' do
     subject(:columns) { Page.new.versioned_columns }
 
     it 'has version proper columns' do
-      expect(columns).to match_array(['title', 'body', 'author_id'])
+      expect(columns).to match_array(%w(title body author_id))
     end
 
     it 'do not have version non-existing columns' do
@@ -34,7 +33,7 @@ describe Version_fu, :type => :model do
     end
   end
 
-  describe "create" do
+  describe 'create' do
     let(:larry) { create(:larry) }
     subject(:save_page) { create(:page, title: 'New', body: 'body', creator_id: larry.id, author_id: larry.id) }
 
@@ -63,7 +62,7 @@ describe Version_fu, :type => :model do
     end
   end
 
-  describe "update" do
+  describe 'update' do
     subject(:welcome) { create(:page) }
     let(:sara) { create(:sara) }
 
@@ -89,7 +88,7 @@ describe Version_fu, :type => :model do
     end
   end
 
-  describe "skip versioning" do
+  describe 'skip versioning' do
     let(:welcome) { create(:page) }
     let(:larry) { create(:larry) }
     let(:sara) { create(:sara) }
@@ -122,7 +121,7 @@ describe Version_fu, :type => :model do
     end
   end
 
-  describe "finds" do
+  describe 'finds' do
     subject(:welcome) { create(:page) }
     let(:welcome_1) { welcome.versions[0] }
     before do
@@ -152,7 +151,7 @@ describe Version_fu, :type => :model do
     end
   end
 
-  describe "block extension" do
+  describe 'block extension' do
     let(:larry) { create(:larry) }
     let(:welcome) { create(:page, author: larry) }
     subject(:welcome_1) { welcome.versions[0] }

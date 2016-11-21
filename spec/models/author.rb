@@ -1,5 +1,4 @@
 class Author < ActiveRecord::Base
-
   version_fu
 
   def create_new_version?
@@ -10,8 +9,7 @@ class Author < ActiveRecord::Base
     "#{first_name} #{last_name}"
   end
 
-  def hello_world(n=1)
+  def hello_world(n = 1)
     "Hello World #{n}"
   end
-
 end

@@ -9,11 +9,11 @@ require 'rubocop/rake_task'
 task default: [:spec, :rubocop]
 RSpec::Core::RakeTask.new
 
-desc "Run RuboCop checks"
+desc 'Run RuboCop checks'
 RuboCop::RakeTask.new
 
 desc 'Default: run unit tests.'
-task :default=>:test
+task default: :test
 
 desc 'Test the version_fu plugin.'
 Rake::TestTask.new(:test) do |t|

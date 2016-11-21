@@ -9,7 +9,7 @@ Version_fu.configure do
 
   # Configure static asset server for tests with Cache-Control for performance
   config.serve_static_files = true
-  config.static_cache_control = "public, max-age=3600"
+  config.static_cache_control = 'public, max-age=3600'
 
   # Log error messages when you accidentally call methods on nil
   config.whiny_nils = true
@@ -22,7 +22,7 @@ Version_fu.configure do
   config.action_dispatch.show_exceptions = false
 
   # Disable request forgery protection in test environment
-  config.action_controller.allow_forgery_protection    = false
+  config.action_controller.allow_forgery_protection = false
 
   # Tell Action Mailer not to deliver emails to the real world.
   # The :test delivery method accumulates sent emails in the
@@ -30,7 +30,7 @@ Version_fu.configure do
   config.action_mailer.delivery_method = :test
 
   # Raise exception on mass assignment protection for Active Record models
-  #config.active_record.mass_assignment_sanitizer = :strict
+  # config.active_record.mass_assignment_sanitizer = :strict
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
@@ -51,5 +51,4 @@ Version_fu.configure do
   config.active_support.test_order = :sorted
 
   config.log_level = :debug
-
 end
